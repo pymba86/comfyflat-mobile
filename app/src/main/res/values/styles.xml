@@ -25,7 +25,6 @@
     <style name="ToolbarStyle" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="android:background">@color/colorPrimary</item>
         <item name="android:theme">@style/ToolbarTheme</item>
-        <item name="android:elevation">8dp</item>
         <item name="popupTheme">@style/PopupToolbarTheme</item>
     </style>
 

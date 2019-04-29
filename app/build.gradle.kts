@@ -14,6 +14,19 @@ android {
         versionCode = 1
         versionName = "0.0.1"
         testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
+
+        defaultConfig {
+            buildConfigField("String", "ORIGIN_GITLAB_ENDPOINT", "\"https://gitlab.com/\"")
+
+
+            javaCompileOptions {
+                annotationProcessorOptions {
+                    arguments = mapOf(
+                        "toothpick_registry_package_name" to "ru.terrakok.gitlabclient"
+                    )
+                }
+            }
+        }
     }
     buildTypes {
         getByName("release") {
