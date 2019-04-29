@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">comfyflat-mobile</string>
+    <string name="auth_title">Authorization</string>
+</resources>
