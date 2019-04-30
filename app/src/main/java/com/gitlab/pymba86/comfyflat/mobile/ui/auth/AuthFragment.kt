@@ -15,7 +15,7 @@ class AuthFragment : BaseFragment(), AuthView,  CustomServerAuthFragment.OnClick
 
     override val layoutRes = R.layout.fragment_auth
 
-    override val customLogin = { url: String, token: String -> presenter.loginOnCustomServer(url, token) }
+    override val customLogin = { url: String -> presenter.loginOnCustomServer(url) }
 
     @InjectPresenter
     lateinit var presenter: AuthPresenter

@@ -77,6 +77,12 @@ dependencies {
     implementation("io.reactivex.rxjava2:rxjava:2.2.3")
     implementation("com.jakewharton.rxrelay2:rxrelay:2.1.0")
 
+    // WebSocket
+    implementation("com.neovisionaries:nv-websocket-client:2.4")
+
+    // Lottie
+    implementation("com.airbnb.android:lottie:2.5.1")
+
 }
 
 gradle.buildFinished {

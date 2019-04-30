@@ -9,7 +9,7 @@ class AppLauncher @Inject constructor(
 ) {
 
     fun coldStart() {
-        router.newRootScreen(Screens.AuthFlow)
+        router.newRootScreen(Screens.RoomsContainer)
 
     }
 }
