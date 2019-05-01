@@ -12,6 +12,7 @@ import com.gitlab.pymba86.comfyflat.mobile.presentation.global.GlobalMenuControl
 import com.gitlab.pymba86.comfyflat.mobile.toothpick.DI
 import com.gitlab.pymba86.comfyflat.mobile.toothpick.module.FlowNavigationModule
 import com.gitlab.pymba86.comfyflat.mobile.toothpick.module.GlobalMenuModule
+import com.gitlab.pymba86.comfyflat.mobile.ui.about.AboutFragment
 import com.gitlab.pymba86.comfyflat.mobile.ui.global.BaseFragment
 import com.gitlab.pymba86.comfyflat.mobile.ui.main.MainFlowFragment
 import io.reactivex.disposables.Disposable
@@ -121,7 +122,7 @@ class DrawerFlowFragment : BaseFragment() {
             currentFragment?.let {
                 when (it) {
                     is MainFlowFragment -> drawerFragment.onScreenChanged(NavigationDrawerView.MenuItem.ROOMS)
-                    is MainFlowFragment -> drawerFragment.onScreenChanged(NavigationDrawerView.MenuItem.ABOUT)
+                    is AboutFragment -> drawerFragment.onScreenChanged(NavigationDrawerView.MenuItem.ABOUT)
                 }
             }
         }

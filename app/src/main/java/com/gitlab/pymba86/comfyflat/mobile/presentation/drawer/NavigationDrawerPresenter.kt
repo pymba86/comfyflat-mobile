@@ -42,7 +42,7 @@ class NavigationDrawerPresenter @Inject constructor(
         if (item != currentSelectedItem) {
             when (item) {
                 ROOMS -> router.newRootScreen(Screens.MainFlow)
-                ABOUT -> router.newRootScreen(Screens.MainFlow)
+                ABOUT -> router.newRootScreen(Screens.About)
             }
         }
     }

@@ -30,7 +30,7 @@
     <string name="empty_data_description">You have not data yet.\nPlease try again later.</string>
 
     <!--Projects screen-->
-    <string name="projects_title">Projects</string>
+    <string name="projects_title">Комнаты</string>
     <string name="my_projects_title">My projects</string>
     <string name="starred_projects_title">Starred</string>
     <string name="all_projects_title">All</string>
@@ -45,4 +45,9 @@
     <string name="exit">Выйти</string>
     <string name="logout_question">Выйти?</string>
     <string name="add_account">Добавить пользователя</string>
+
+    <!--About screen-->
+    <string name="about_title">About</string>
+    <string name="about_info">Информация</string>
+    <string name="about_developers">Разработчики</string>
 </resources>

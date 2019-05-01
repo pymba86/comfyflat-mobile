@@ -83,6 +83,9 @@ dependencies {
     // Lottie
     implementation("com.airbnb.android:lottie:2.5.1")
 
+    // Adapter simplify
+    implementation("com.hannesdorfmann:adapterdelegates3:3.1.0")
+
 }
 
 gradle.buildFinished {
