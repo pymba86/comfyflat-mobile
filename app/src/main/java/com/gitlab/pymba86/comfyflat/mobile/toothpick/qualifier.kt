@@ -25,7 +25,10 @@ annotation class IssueId
 annotation class MergeRequestId
 
 @Qualifier
-annotation class ProjectId
+annotation class RoomId
+
+@Qualifier
+annotation class RoomName
 
 @Qualifier
 annotation class ProjectListMode

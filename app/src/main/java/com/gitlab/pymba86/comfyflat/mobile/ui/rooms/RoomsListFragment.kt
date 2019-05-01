@@ -35,7 +35,7 @@ class RoomsListFragment : BaseFragment(), RoomsListView {
 
     private var zeroViewHolder: ZeroViewHolder? = null
 
-    private val adapter = RoomsAdapter({ presenter.loadNextProjectsPage() }, { })
+    private val adapter = RoomsAdapter({ presenter.loadNextProjectsPage() }, { id, name -> presenter.onRoomClicked(id, name) })
 
     @ProvidePresenter
     fun createPresenter(): RoomsListPresenter =

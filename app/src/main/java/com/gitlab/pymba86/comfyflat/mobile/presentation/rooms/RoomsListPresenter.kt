@@ -1,8 +1,9 @@
 package com.gitlab.pymba86.comfyflat.mobile.presentation.rooms
 
 import com.arellomobile.mvp.InjectViewState
+import com.gitlab.pymba86.comfyflat.mobile.Screens
 import com.gitlab.pymba86.comfyflat.mobile.entity.Room
-import com.gitlab.pymba86.comfyflat.mobile.model.interactor.session.RoomInteractor
+import com.gitlab.pymba86.comfyflat.mobile.model.interactor.room.RoomInteractor
 import com.gitlab.pymba86.comfyflat.mobile.model.system.flow.FlowRouter
 import com.gitlab.pymba86.comfyflat.mobile.presentation.global.BasePresenter
 import com.gitlab.pymba86.comfyflat.mobile.presentation.global.Paginator
@@ -64,6 +65,8 @@ class RoomsListPresenter @Inject constructor(
         super.onDestroy()
         paginator.release()
     }
+
+    fun onRoomClicked(id: Long, name : String) = router.startFlow(Screens.RoomFlow(id, name))
 
     fun refreshProjects() = paginator.refresh()
     fun loadNextProjectsPage() = paginator.loadNewPage()

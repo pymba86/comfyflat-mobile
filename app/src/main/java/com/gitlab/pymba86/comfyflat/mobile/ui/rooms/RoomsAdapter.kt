@@ -10,12 +10,12 @@ import com.hannesdorfmann.adapterdelegates3.ListDelegationAdapter
 
 class RoomsAdapter(
     private val nextPageListener: () -> Unit,
-    private val onClickListener: (Long) -> Unit
+    private val onClickListener: (id : Long, name : String) -> Unit
 )  : ListDelegationAdapter<MutableList<Any>>() {
 
     init {
         items = mutableListOf()
-        delegatesManager.addDelegate(RoomAdapterDelegate { onClickListener(it.id) })
+        delegatesManager.addDelegate(RoomAdapterDelegate { onClickListener(it.id, it.name) })
         delegatesManager.addDelegate(ProgressAdapterDelegate())
     }
 
