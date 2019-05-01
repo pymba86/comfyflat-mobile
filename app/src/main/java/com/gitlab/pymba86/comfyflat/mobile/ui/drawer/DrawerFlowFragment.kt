@@ -15,6 +15,7 @@ import com.gitlab.pymba86.comfyflat.mobile.toothpick.module.GlobalMenuModule
 import com.gitlab.pymba86.comfyflat.mobile.ui.about.AboutFragment
 import com.gitlab.pymba86.comfyflat.mobile.ui.global.BaseFragment
 import com.gitlab.pymba86.comfyflat.mobile.ui.main.MainFlowFragment
+import com.gitlab.pymba86.comfyflat.mobile.ui.rooms.RoomsListFragment
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.drawer_flow_fragment.*
 import ru.terrakok.cicerone.Navigator
@@ -91,7 +92,7 @@ class DrawerFlowFragment : BaseFragment() {
                 .replace(R.id.navDrawerContainer, NavigationDrawerFragment())
                 .commitNow()
 
-            navigator.setLaunchScreen(Screens.MainFlow)
+            navigator.setLaunchScreen(Screens.Rooms)
         } else {
             updateNavDrawer()
         }
@@ -121,7 +122,7 @@ class DrawerFlowFragment : BaseFragment() {
         drawerFragment?.let { drawerFragment ->
             currentFragment?.let {
                 when (it) {
-                    is MainFlowFragment -> drawerFragment.onScreenChanged(NavigationDrawerView.MenuItem.ROOMS)
+                    is RoomsListFragment -> drawerFragment.onScreenChanged(NavigationDrawerView.MenuItem.ROOMS)
                     is AboutFragment -> drawerFragment.onScreenChanged(NavigationDrawerView.MenuItem.ABOUT)
                 }
             }

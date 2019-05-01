@@ -1,27 +1,19 @@
 package com.gitlab.pymba86.comfyflat.mobile.presentation.rooms
 
-import com.gitlab.pymba86.comfyflat.mobile.Screens
+import com.arellomobile.mvp.InjectViewState
 import com.gitlab.pymba86.comfyflat.mobile.entity.Room
+import com.gitlab.pymba86.comfyflat.mobile.model.interactor.session.RoomInteractor
 import com.gitlab.pymba86.comfyflat.mobile.model.system.flow.FlowRouter
 import com.gitlab.pymba86.comfyflat.mobile.presentation.global.BasePresenter
 import com.gitlab.pymba86.comfyflat.mobile.presentation.global.Paginator
-import com.gitlab.pymba86.comfyflat.mobile.toothpick.PrimitiveWrapper
-import com.gitlab.pymba86.comfyflat.mobile.toothpick.ProjectListMode
 import io.reactivex.Single
 import javax.inject.Inject
 
+@InjectViewState
 class RoomsListPresenter @Inject constructor(
-    @ProjectListMode private val modeWrapper: PrimitiveWrapper<Int>,
-    private val router: FlowRouter
-) : BasePresenter<RoomsListView>() {
-
-    companion object {
-        const val MAIN_PROJECTS = 0
-        const val MY_PROJECTS = 1
-        const val STARRED_PROJECTS = 2
-    }
-
-    private val mode = modeWrapper.value
+    private val router: FlowRouter,
+    private val interactor: RoomInteractor
+    ) : BasePresenter<RoomsListView>() {
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
@@ -53,7 +45,7 @@ class RoomsListPresenter @Inject constructor(
             }
 
             override fun showData(show: Boolean, data: List<Room>) {
-                viewState.showProjects(show, data)
+                viewState.showRooms(show, data)
             }
 
             override fun showRefreshProgress(show: Boolean) {
@@ -66,10 +58,7 @@ class RoomsListPresenter @Inject constructor(
         }
     )
 
-    private fun getProjectsSingle(page: Int) = Single.fromCallable {testRoom()};
-
-
-    private fun testRoom() =  listOf(Room(1))
+    private fun getProjectsSingle(page: Int) = Single.fromCallable {interactor.getRooms(page) }
 
     override fun onDestroy() {
         super.onDestroy()
@@ -79,6 +68,5 @@ class RoomsListPresenter @Inject constructor(
     fun refreshProjects() = paginator.refresh()
     fun loadNextProjectsPage() = paginator.loadNewPage()
 
-    fun onProjectClicked(id: Long) = null
     fun onBackPressed() = router.exit()
 }

@@ -13,7 +13,7 @@ interface RoomsListView : MvpView {
     fun showPageProgress(show: Boolean)
     fun showEmptyView(show: Boolean)
     fun showEmptyError(show: Boolean, message: String?)
-    fun showProjects(show: Boolean, projects: List<Room>)
+    fun showRooms(show: Boolean, projects: List<Room>)
 
     @StateStrategyType(OneExecutionStateStrategy::class)
     fun showMessage(message: String)

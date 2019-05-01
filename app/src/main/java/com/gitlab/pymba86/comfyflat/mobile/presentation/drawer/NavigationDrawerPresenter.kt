@@ -41,7 +41,7 @@ class NavigationDrawerPresenter @Inject constructor(
         menuController.close()
         if (item != currentSelectedItem) {
             when (item) {
-                ROOMS -> router.newRootScreen(Screens.MainFlow)
+                ROOMS -> router.newRootScreen(Screens.Rooms)
                 ABOUT -> router.newRootScreen(Screens.About)
             }
         }

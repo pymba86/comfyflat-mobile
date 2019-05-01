@@ -6,7 +6,6 @@ import com.gitlab.pymba86.comfyflat.mobile.ui.auth.AuthFragment
 import com.gitlab.pymba86.comfyflat.mobile.ui.develop.DevelopFragment
 import com.gitlab.pymba86.comfyflat.mobile.ui.drawer.DrawerFlowFragment
 import com.gitlab.pymba86.comfyflat.mobile.ui.main.MainFlowFragment
-import com.gitlab.pymba86.comfyflat.mobile.ui.rooms.RoomsContainerFragment
 import com.gitlab.pymba86.comfyflat.mobile.ui.rooms.RoomsListFragment
 import com.gitlab.pymba86.comfyflat.mobile.ui.user.UserFlowFragment
 import com.gitlab.pymba86.comfyflat.mobile.ui.user.info.UserInfoFragment
@@ -48,14 +47,8 @@ object Screens {
         override fun getFragment() = AboutFragment()
     }
 
-    object RoomsContainer : SupportAppScreen() {
-        override fun getFragment() = RoomsContainerFragment()
-    }
-
-    data class Rooms(
-        val mode: Int
-    ) : SupportAppScreen() {
-        override fun getFragment() = RoomsListFragment.create(mode)
+    object Rooms : SupportAppScreen() {
+        override fun getFragment() = RoomsListFragment()
     }
 
 }
