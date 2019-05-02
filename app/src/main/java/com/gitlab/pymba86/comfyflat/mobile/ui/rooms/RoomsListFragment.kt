@@ -90,8 +90,8 @@ class RoomsListFragment : BaseFragment(), RoomsListView {
         showSnackMessage(message)
     }
 
-    override fun showPageProgress(isVisible: Boolean) {
-        postViewAction { adapter.showProgress(isVisible) }
+    override fun showPageProgress(show: Boolean) {
+        postViewAction { adapter.showProgress(show) }
     }
 
     override fun onBackPressed() = presenter.onBackPressed()

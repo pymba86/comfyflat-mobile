@@ -3,11 +3,11 @@ package com.gitlab.pymba86.comfyflat.mobile.entity.device
 import com.google.gson.annotations.SerializedName
 
 data class DeviceFunction(
-    @SerializedName("id") val id: Long,
+    @SerializedName("id") val id: Int,
     @SerializedName("name") val name: String,
-    @SerializedName("value") val value: Long,
+    @SerializedName("value") val value: Int,
     @SerializedName("measure") val measure: String,
     @SerializedName("isWriteAccess") val isWriteAccess: Boolean,
-    @SerializedName("minValue") val minValue: Long,
-    @SerializedName("maxValue") val maxValue: Long
+    @SerializedName("minValue") val minValue: Int,
+    @SerializedName("maxValue") val maxValue: Int
 )

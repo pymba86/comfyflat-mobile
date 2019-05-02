@@ -30,4 +30,5 @@
 
     <color name="beige">#fff8e1</color>
 
+    <color name="cSecondaryTextLight">#8a000000</color>
 </resources>

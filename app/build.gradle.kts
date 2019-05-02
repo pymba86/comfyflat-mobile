@@ -86,6 +86,8 @@ dependencies {
     // Adapter simplify
     implementation("com.hannesdorfmann:adapterdelegates3:3.1.0")
 
+    // Bubble Seekbar
+    implementation("org.adw.library:discrete-seekbar:1.0.1")
 }
 
 gradle.buildFinished {

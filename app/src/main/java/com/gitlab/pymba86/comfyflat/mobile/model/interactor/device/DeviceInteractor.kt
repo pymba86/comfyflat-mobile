@@ -18,5 +18,7 @@ class DeviceInteractor @Inject constructor(
         )
     )
 
-    fun getDevices(roomId: Long) = listDevices
+    fun getDevices(roomId: Long,  page: Int) = listDevices
+
+    fun getDevicesGroupByCategory(roomId: Long,  page: Int) = listDevices.groupBy { device -> device.category }
 }
