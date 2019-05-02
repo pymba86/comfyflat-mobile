@@ -13,7 +13,7 @@ class AuthPresenter @Inject constructor(
 
     fun onBackPressed() = router.exit()
 
-    fun loginOnCustomServer(url: String) {
+    fun connectOnCustomServer(url: String, realm: String) {
 
     }
 }

@@ -11,11 +11,11 @@ import com.gitlab.pymba86.comfyflat.mobile.presentation.auth.AuthView
 import com.gitlab.pymba86.comfyflat.mobile.ui.global.BaseFragment
 import kotlinx.android.synthetic.main.fragment_auth.*
 
-class AuthFragment : BaseFragment(), AuthView,  CustomServerAuthFragment.OnClickListener {
+class AuthFragment : BaseFragment(), AuthView, CustomServerAuthFragment.OnClickListener {
 
     override val layoutRes = R.layout.fragment_auth
 
-    override val customLogin = { url: String -> presenter.loginOnCustomServer(url) }
+    override val customConnect = { url: String, realm: String -> presenter.connectOnCustomServer(url, realm) }
 
     @InjectPresenter
     lateinit var presenter: AuthPresenter

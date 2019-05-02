@@ -6,6 +6,8 @@ import android.support.design.widget.BottomSheetDialogFragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import android.widget.Toast
 import com.gitlab.pymba86.comfyflat.mobile.BuildConfig
 import com.gitlab.pymba86.comfyflat.mobile.R
 import kotlinx.android.synthetic.main.fragment_custom_server_auth.*
@@ -27,21 +29,40 @@ class CustomServerAuthFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (serverPathValue.text.isEmpty()) {
-            serverPathValue.setText(BuildConfig.ORIGIN_GITLAB_ENDPOINT)
+
+        realmValue.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                connect()
+                true
+            } else {
+                false
+            }
         }
 
-        submitButton.setOnClickListener { login() }
+        submitButton.setOnClickListener { connect() }
         cancelButton.setOnClickListener { dismiss() }
     }
 
-    private fun login() {
+    private fun connect() {
+
         val url = serverPathValue.text.toString()
-        listener.customLogin.invoke(url)
+        val realm = realmValue.text.toString()
+
+        if (realm.isEmpty()) {
+            Toast.makeText(this.context, getString(R.string.empty_realm), Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        if (url.isEmpty()) {
+            Toast.makeText(this.context, getString(R.string.empty_server_url), Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        listener.customConnect.invoke(url, realm)
         dismiss()
     }
 
     interface OnClickListener {
-        val customLogin: (url: String) -> Unit
+        val customConnect: (url: String, realm: String) -> Unit
     }
 }

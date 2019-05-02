@@ -13,10 +13,12 @@
     <string name="custom_auth_menu">Custom server</string>
     <string name="custom_authorization">Сервер</string>
     <string name="server_path">Url:</string>
-    <string name="server_path_hint">ws://www.example.com:55555</string>
+    <string name="server_path_hint">ws://www.example.com</string>
+    <string name="realm_hint">default</string>
+    <string name="realm">Realm:</string>
     <string name="login">Войти</string>
-    <string name="invalid_server_url">Invalid server path!</string>
-    <string name="empty_token">Empty token!</string>
+    <string name="empty_server_url">Url не задан!</string>
+    <string name="empty_realm">Realm не задан!</string>
     <string name="logo_text">comfyflat-mobile</string>
     <string name="login_text">Логин</string>
     <string name="password_text">Пароль</string>

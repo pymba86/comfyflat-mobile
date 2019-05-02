@@ -81,7 +81,7 @@ class NavigationDrawerFragment : BaseFragment(), NavigationDrawerView, MessageDi
 
     override fun setAccounts(accounts: List<UserAccount>, currentAccount: UserAccount) {
         nickTV.text = currentAccount.userName
-        managerKeyTV.text = currentAccount.managerKey
+        managerKeyTV.text = currentAccount.session.realm
 
         accountsContainer.removeAllViews()
         accounts.forEach { acc ->
@@ -89,7 +89,7 @@ class NavigationDrawerFragment : BaseFragment(), NavigationDrawerView, MessageDi
                 .apply {
                     avatarImageView.text = acc.userName.getOrElse(0){'A'}.toUpperCase().toString()
                     nameTextView.text = acc.userName
-                    managerKeyTextView.text = acc.managerKey
+                    managerKeyTextView.text = acc.session.realm
                     selectorView.visible(acc == currentAccount)
                     setOnClickListener { presenter.onAccountClick(acc) }
                 }

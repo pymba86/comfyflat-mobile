@@ -28,6 +28,20 @@ android {
             }
         }
     }
+
+    packagingOptions {
+        exclude("META-INF/DEPENDENCIES")
+        exclude("META-INF/LICENSE")
+        exclude("META-INF/LICENSE.txt")
+        exclude("META-INF/license.txt")
+        exclude("META-INF/NOTICE")
+        exclude("META-INF/NOTICE.txt")
+        exclude("META-INF/notice.txt")
+        exclude("META-INF/ASL2.0")
+        exclude("META-INF/INDEX.LIST")
+        exclude("META-INF/io.netty.versions.properties")
+    }
+
     buildTypes {
         getByName("release") {
             isMinifyEnabled = true
@@ -53,7 +67,7 @@ dependencies {
     implementation("com.android.support.constraint:constraint-layout:1.1.3")
 
     // Kotlin
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:${extra["kotlinVersion"] as String}")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:${extra["kotlinVersion"] as String}")
 
     // Log
     implementation("com.jakewharton.timber:timber:4.7.0")
@@ -85,6 +99,9 @@ dependencies {
 
     // Adapter simplify
     implementation("com.hannesdorfmann:adapterdelegates3:3.1.0")
+
+    // Jawampa
+    implementation("ws.wamp.jawampa:jawampa-netty:0.5.0")
 
 }
 

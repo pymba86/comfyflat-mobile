@@ -46,6 +46,31 @@
         app:layout_constraintBaseline_toBaselineOf="@id/serverPathValue"
         app:layout_constraintEnd_toStartOf="@+id/guideline" />
 
+    <EditText
+            android:id="@+id/realmValue"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:gravity="start"
+            android:hint="@string/realm_hint"
+            android:imeOptions="actionDone"
+            android:inputType="textShortMessage"
+            android:lines="1"
+            android:textSize="16sp"
+            app:layout_constraintLeft_toRightOf="@id/guideline"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/serverPathValue" />
+
+    <TextView
+            android:id="@+id/realmLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/realm"
+            android:textSize="16sp"
+            app:layout_constraintBaseline_toBaselineOf="@id/realmValue"
+            app:layout_constraintEnd_toStartOf="@+id/guideline" />
+
     <TextView
         android:id="@+id/submitButton"
         android:layout_width="wrap_content"
@@ -58,7 +83,7 @@
         android:textColor="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/serverPathValue" />
+        app:layout_constraintTop_toBottomOf="@id/realmValue" />
 
     <TextView
         android:id="@+id/cancelButton"
@@ -72,6 +97,6 @@
         android:textColor="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toLeftOf="@id/submitButton"
-        app:layout_constraintTop_toBottomOf="@id/serverPathValue" />
+        app:layout_constraintTop_toBottomOf="@id/realmValue" />
 
 </android.support.constraint.ConstraintLayout>
