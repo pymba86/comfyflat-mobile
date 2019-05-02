@@ -45,12 +45,12 @@
             android:layout_marginTop="4dp"
             android:drawablePadding="4dp"
             android:gravity="center_vertical|end"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/secondary_text"
             android:textSize="16sp"
             app:layout_constraintLeft_toLeftOf="@id/titleTextView"
             app:layout_constraintTop_toBottomOf="@id/titleTextView"
-            tools:drawableStart="@drawable/ic_fork"
-            tools:drawableTint="@color/colorPrimary"
+            android:drawableStart="@drawable/ic_fork"
+            android:drawableTint="@color/secondary_text"
             tools:text="4" />
 
     <TextView
@@ -61,12 +61,12 @@
             android:layout_marginTop="4dp"
             android:drawablePadding="4dp"
             android:gravity="center_vertical|end"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/secondary_text"
             android:textSize="16sp"
             app:layout_constraintLeft_toRightOf="@id/forksTextView"
             app:layout_constraintTop_toBottomOf="@id/titleTextView"
-            tools:drawableStart="@drawable/ic_star_black_24dp"
-            tools:drawableTint="@color/colorPrimary"
+            android:drawableStart="@drawable/ic_star_black_24dp"
+            android:drawableTint="@color/secondary_text"
             tools:text="2" />
 
 

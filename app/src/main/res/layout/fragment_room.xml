@@ -16,10 +16,6 @@
         app:navigationIcon="@drawable/ic_arrow_back_24dp"
         tools:title="Детская" />
 
-    <FrameLayout
-        android:id="@+id/projectMainContainer"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
+    <include layout="@layout/layout_base_list" />
 
 </LinearLayout>
