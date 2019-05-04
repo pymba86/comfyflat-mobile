@@ -1,4 +1,4 @@
-package com.gitlab.pymba86.comfyflat.mobile.ui.auth
+package com.gitlab.pymba86.comfyflat.mobile.ui.session.auth
 
 import android.os.Bundle
 import com.arellomobile.mvp.MvpView
@@ -12,9 +12,9 @@ import toothpick.Scope
 import toothpick.Toothpick
 import javax.inject.Inject
 
-class AuthFlowFragment : FlowFragment(), MvpView {
+class SessionAuthFlowFragment : FlowFragment(), MvpView {
 
-    override val parentScopeName = DI.APP_SCOPE
+    override val parentScopeName = DI.SERVER_SCOPE
 
     override val scopeModuleInstaller = { scope: Scope ->
         scope.installModules(

@@ -2,7 +2,7 @@ package com.gitlab.pymba86.comfyflat.mobile.presentation.drawer
 
 import com.arellomobile.mvp.InjectViewState
 import com.gitlab.pymba86.comfyflat.mobile.Screens
-import com.gitlab.pymba86.comfyflat.mobile.entity.app.session.UserAccount
+import com.gitlab.pymba86.comfyflat.mobile.entity.Session
 import com.gitlab.pymba86.comfyflat.mobile.model.interactor.session.SessionInteractor
 import com.gitlab.pymba86.comfyflat.mobile.model.system.flow.FlowRouter
 import com.gitlab.pymba86.comfyflat.mobile.presentation.drawer.NavigationDrawerView.MenuItem
@@ -19,14 +19,14 @@ class NavigationDrawerPresenter @Inject constructor(
 ) : BasePresenter<NavigationDrawerView>() {
 
     private var currentSelectedItem: MenuItem? = null
-    private var userAccount: UserAccount? =  null
+    private var currentSession: Session? =  null
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
 
-        sessionInteractor.getCurrentUserAccount()?.let { acc ->
-            this.userAccount = acc
-            viewState.setAccounts(sessionInteractor.getUserAccounts(), acc)
+        sessionInteractor.getCurrentSession()?.let { item ->
+            this.currentSession = item
+            viewState.setSessions(sessionInteractor.getSessions(), item)
         }
 
     }
@@ -47,26 +47,33 @@ class NavigationDrawerPresenter @Inject constructor(
         }
     }
 
-    fun onLogoutClick() {
+    fun onRemoveSessionClick() {
         menuController.close()
-
-    }
-
-    fun onUserClick() {
-        menuController.close()
-        userAccount?.let {
-            router.startFlow(Screens.UserFlow(it.userId))
+        currentSession?.let {
+            val hasOtherSession = sessionInteractor.remove(it.id)
+            if (hasOtherSession) {
+                router.newRootFlow(Screens.DrawerFlow)
+            } else {
+                router.newRootFlow(Screens.AuthFlow)
+            }
         }
     }
 
-    fun onAddAccountClick() {
+    fun onSessionClick() {
+        menuController.close()
+        currentSession?.let {
+            router.startFlow(Screens.UserFlow)
+        }
+    }
+
+    fun onAddSessionClick() {
         router.startFlow(Screens.AuthFlow)
 
     }
 
-    fun onAccountClick(account: UserAccount) {
-        if (account != userAccount) {
-            sessionInteractor.setCurrentUserAccount(account.userId)?.let { acc ->
+    fun onSessionClick(session: Session) {
+        if (session != currentSession) {
+            sessionInteractor.setCurrentSession(session.id)?.let {
                 router.newRootFlow(Screens.DrawerFlow)
             }
         }

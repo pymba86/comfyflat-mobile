@@ -5,17 +5,18 @@ import android.view.View
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.gitlab.pymba86.comfyflat.mobile.R
-import com.gitlab.pymba86.comfyflat.mobile.entity.app.session.UserAccount
+import com.gitlab.pymba86.comfyflat.mobile.entity.Session
 import com.gitlab.pymba86.comfyflat.mobile.extension.inflate
 import com.gitlab.pymba86.comfyflat.mobile.extension.visible
 import com.gitlab.pymba86.comfyflat.mobile.presentation.drawer.NavigationDrawerPresenter
 import com.gitlab.pymba86.comfyflat.mobile.presentation.drawer.NavigationDrawerView
 import com.gitlab.pymba86.comfyflat.mobile.presentation.drawer.NavigationDrawerView.MenuItem
 import com.gitlab.pymba86.comfyflat.mobile.presentation.drawer.NavigationDrawerView.MenuItem.*
+import com.gitlab.pymba86.comfyflat.mobile.toothpick.client.WampState
 import com.gitlab.pymba86.comfyflat.mobile.ui.global.BaseFragment
 import com.gitlab.pymba86.comfyflat.mobile.ui.global.MessageDialogFragment
 import kotlinx.android.synthetic.main.fragment_nav_drawer.*
-import kotlinx.android.synthetic.main.item_user_acount.view.*
+import kotlinx.android.synthetic.main.item_session.view.*
 
 class NavigationDrawerFragment : BaseFragment(), NavigationDrawerView, MessageDialogFragment.OnClickListener {
 
@@ -36,18 +37,18 @@ class NavigationDrawerFragment : BaseFragment(), NavigationDrawerView, MessageDi
         super.onActivityCreated(savedInstanceState)
 
         showAccountsList(false)
-        nickTV.setOnClickListener { presenter.onUserClick() }
+        realmTV.setOnClickListener { presenter.onSessionClick() }
         dropDownImageView.setOnClickListener {
-            showAccountsList(accountsContainer.visibility == View.GONE)
+            showAccountsList(sessionsContainer.visibility == View.GONE)
         }
 
-        logoutIV.setOnClickListener {
+        disconnectIV.setOnClickListener {
             MessageDialogFragment.create(
                 message = getString(R.string.logout_question),
                 positive = getString(R.string.exit),
                 negative = getString(R.string.cancel),
-                tag = CONFIRM_LOGOUT_TAG
-            ).show(childFragmentManager, CONFIRM_LOGOUT_TAG)
+                tag = CONFIRM_REMOVE_SESSION_TAG
+            ).show(childFragmentManager, CONFIRM_REMOVE_SESSION_TAG)
         }
 
         roomsMI.tag = ROOMS
@@ -67,46 +68,54 @@ class NavigationDrawerFragment : BaseFragment(), NavigationDrawerView, MessageDi
         presenter.onScreenChanged(item)
     }
 
-    override fun dialogPositiveClicked(tag: String) {
-        when (tag) {
-            CONFIRM_LOGOUT_TAG -> presenter.onLogoutClick()
+    fun updateStateWampClient(state: WampState?) {
+        stateClientTV.text = when(state) {
+            WampState.CONNECTING -> "connecting"
+            WampState.CLOSED -> "closed"
+            WampState.CLOSING -> "closing"
+            WampState.OPEN -> "open"
+            else -> "undefined"
         }
     }
 
     private fun showAccountsList(show: Boolean) {
-        accountsContainer.visible(show)
+        sessionsContainer.visible(show)
         dropDownImageView.rotation = if (show) 180f else 0f
     }
 
 
-    override fun setAccounts(accounts: List<UserAccount>, currentAccount: UserAccount) {
-        nickTV.text = currentAccount.userName
-        managerKeyTV.text = currentAccount.session.realm
+    override fun setSessions(sessions: List<Session>, currentSession: Session) {
+        realmTV.text = currentSession.realm
 
-        accountsContainer.removeAllViews()
-        accounts.forEach { acc ->
-            accountsContainer.inflate(R.layout.item_user_acount)
+        sessionsContainer.removeAllViews()
+        sessions.forEach { item ->
+            sessionsContainer.inflate(R.layout.item_session)
                 .apply {
-                    avatarImageView.text = acc.userName.getOrElse(0){'A'}.toUpperCase().toString()
-                    nameTextView.text = acc.userName
-                    managerKeyTextView.text = acc.session.realm
-                    selectorView.visible(acc == currentAccount)
-                    setOnClickListener { presenter.onAccountClick(acc) }
+                    avatarImageView.text = item.realm.getOrElse(0){'A'}.toUpperCase().toString()
+                    nameTextView.text = item.realm
+                    selectorView.visible(item == currentSession)
+                    setOnClickListener { presenter.onSessionClick(item) }
                 }
                 .also {
-                    accountsContainer.addView(it)
+                    sessionsContainer.addView(it)
                 }
         }
-        accountsContainer.inflate(R.layout.item_add_acount)
+        sessionsContainer.inflate(R.layout.item_add_session)
             .apply {
-                setOnClickListener { presenter.onAddAccountClick() }
+                setOnClickListener { presenter.onAddSessionClick() }
             }
             .also {
-                accountsContainer.addView(it)
+                sessionsContainer.addView(it)
             }
     }
 
+    override fun dialogPositiveClicked(tag: String) {
+        when (tag) {
+            CONFIRM_REMOVE_SESSION_TAG -> presenter.onRemoveSessionClick()
+        }
+    }
+
     private companion object {
-        private const val CONFIRM_LOGOUT_TAG = "confirm_logout_tag"
+        private const val CONFIRM_REMOVE_SESSION_TAG = "confirm_remove_session_tag"
     }
 }

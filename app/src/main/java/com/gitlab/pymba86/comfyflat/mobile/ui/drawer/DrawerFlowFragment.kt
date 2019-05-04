@@ -10,11 +10,12 @@ import com.gitlab.pymba86.comfyflat.mobile.extension.setLaunchScreen
 import com.gitlab.pymba86.comfyflat.mobile.presentation.drawer.NavigationDrawerView
 import com.gitlab.pymba86.comfyflat.mobile.presentation.global.GlobalMenuController
 import com.gitlab.pymba86.comfyflat.mobile.toothpick.DI
+import com.gitlab.pymba86.comfyflat.mobile.toothpick.client.Wamp
+import com.gitlab.pymba86.comfyflat.mobile.toothpick.client.WampState
 import com.gitlab.pymba86.comfyflat.mobile.toothpick.module.FlowNavigationModule
 import com.gitlab.pymba86.comfyflat.mobile.toothpick.module.GlobalMenuModule
 import com.gitlab.pymba86.comfyflat.mobile.ui.about.AboutFragment
 import com.gitlab.pymba86.comfyflat.mobile.ui.global.BaseFragment
-import com.gitlab.pymba86.comfyflat.mobile.ui.main.MainFlowFragment
 import com.gitlab.pymba86.comfyflat.mobile.ui.rooms.RoomsListFragment
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.drawer_flow_fragment.*
@@ -30,6 +31,9 @@ import javax.inject.Inject
 class DrawerFlowFragment : BaseFragment() {
 
     @Inject
+    lateinit var wampClient: Wamp
+
+    @Inject
     lateinit var menuController: GlobalMenuController
 
     @Inject
@@ -40,6 +44,8 @@ class DrawerFlowFragment : BaseFragment() {
 
     private var menuStateDisposable: Disposable? = null
 
+    private var wampClientStateDisposable: Disposable? = null
+
     override val layoutRes = R.layout.drawer_flow_fragment
 
     private val currentFragment
@@ -49,7 +55,7 @@ class DrawerFlowFragment : BaseFragment() {
         get() = childFragmentManager.findFragmentById(R.id.navDrawerContainer) as? NavigationDrawerFragment
 
 
-    override val parentScopeName = DI.APP_SCOPE
+    override val parentScopeName = DI.SERVER_SCOPE
 
     override val scopeModuleInstaller = { scope: Scope ->
         scope.installModules(
@@ -96,17 +102,27 @@ class DrawerFlowFragment : BaseFragment() {
         } else {
             updateNavDrawer()
         }
+
+        wampClient.client.open()
     }
 
     override fun onResume() {
         super.onResume()
         menuStateDisposable = menuController.state.subscribe { openNavDrawer(it) }
+        wampClientStateDisposable = wampClient.state.subscribe { updateStateWampClient(it) }
         navigatorHolder.setNavigator(navigator)
+    }
+
+    private fun updateStateWampClient(state: WampState?) {
+        drawerFragment?.let { drawerFragment ->
+            drawerFragment.updateStateWampClient(state)
+        }
     }
 
     override fun onPause() {
         navigatorHolder.removeNavigator()
         menuStateDisposable?.dispose()
+        wampClientStateDisposable?.dispose()
         super.onPause()
     }
 

@@ -1,17 +1,14 @@
 package com.gitlab.pymba86.comfyflat.mobile.model.interactor.room
 
 
-import com.gitlab.pymba86.comfyflat.mobile.entity.Room
+import com.gitlab.pymba86.comfyflat.mobile.model.repository.room.RoomRepository
 import javax.inject.Inject
 
 class RoomInteractor @Inject constructor(
+    private val roomRepository: RoomRepository
 ) {
 
-    private val listRooms = listOf(
-        Room(1, "Детская", 4, 3),
-        Room(1, "Кухня", 2, 1),
-        Room(1, "Спальня", 3, 2)
-    )
+    fun stateWampClient() = roomRepository.stateWampClient()
 
-    fun getRooms(page: Int) = listRooms
+    fun getRooms(page: Int) = roomRepository.getRooms()
 }

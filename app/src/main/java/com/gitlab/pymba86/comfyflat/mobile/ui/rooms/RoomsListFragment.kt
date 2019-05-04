@@ -65,7 +65,6 @@ class RoomsListFragment : BaseFragment(), RoomsListView {
 
     override fun showEmptyProgress(show: Boolean) {
         fullscreenProgressView.visible(show)
-
         //trick for disable and hide swipeToRefresh on fullscreen progress
         swipeToRefresh.visible(!show)
         postViewAction { swipeToRefresh.isRefreshing = false }
@@ -77,11 +76,14 @@ class RoomsListFragment : BaseFragment(), RoomsListView {
     }
 
     override fun showEmptyError(show: Boolean, message: String?) {
+        recyclerView.visible(!show)
         if (show) zeroViewHolder?.showEmptyError(message)
         else zeroViewHolder?.hide()
     }
 
     override fun showRooms(show: Boolean, projects: List<Room>) {
+        zeroViewHolder?.hide()
+        fullscreenProgressView.visible(!show)
         recyclerView.visible(show)
         postViewAction { adapter.setData(projects) }
     }

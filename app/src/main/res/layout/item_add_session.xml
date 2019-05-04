@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/addAccountLayout"
+    android:id="@+id/addSessionLayout"
     android:background="?attr/selectableItemBackground">
 
     <ImageView
@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:text="@string/add_account"
+        android:text="@string/add_session"
         app:layout_constraintBottom_toBottomOf="@id/avatarImageView"
         app:layout_constraintLeft_toRightOf="@id/avatarImageView"
         app:layout_constraintRight_toRightOf="parent"

@@ -7,38 +7,61 @@ import com.gitlab.pymba86.comfyflat.mobile.model.interactor.room.RoomInteractor
 import com.gitlab.pymba86.comfyflat.mobile.model.system.flow.FlowRouter
 import com.gitlab.pymba86.comfyflat.mobile.presentation.global.BasePresenter
 import com.gitlab.pymba86.comfyflat.mobile.presentation.global.Paginator
-import io.reactivex.Single
+import com.gitlab.pymba86.comfyflat.mobile.toothpick.client.WampState
+import io.reactivex.disposables.Disposable
 import javax.inject.Inject
 
 @InjectViewState
 class RoomsListPresenter @Inject constructor(
     private val router: FlowRouter,
-    private val interactor: RoomInteractor
-    ) : BasePresenter<RoomsListView>() {
+    private val roomInteractor: RoomInteractor
+) : BasePresenter<RoomsListView>() {
+
+    private var wampClientStateDisposable: Disposable? = null
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
 
-        refreshProjects()
+        wampClientStateDisposable = roomInteractor.stateWampClient()
+            .subscribe { state ->
+                when (state) {
+                    WampState.CONNECTING -> {
+                        viewState.showEmptyProgress(true)
+                      //  viewState.showEmptyProgress(true)
+                    }
+                    WampState.CLOSED -> {
+                    }
+                    WampState.CLOSING -> {
+                     //   viewState.showEmptyProgress(false)
+                    //    viewState.showEmptyError(true, "Connection closing")
+                    }
+                    WampState.OPEN -> {
+                        refreshProjects()
+                    }
+                }
+            }
     }
 
     private val paginator = Paginator(
-        { getProjectsSingle(it) },
+        { page -> roomInteractor.getRooms(page) },
         object : Paginator.ViewController<Room> {
             override fun showEmptyProgress(show: Boolean) {
                 viewState.showEmptyProgress(show)
             }
 
             override fun showEmptyError(show: Boolean, error: Throwable?) {
+                viewState.showEmptyProgress(!show)
                 if (error != null) {
-
+                    // errorHandler.proceed(error, { viewState.showEmptyError(show, it) })
+                    viewState.showEmptyError(show, "showEmptyError")
                 } else {
                     viewState.showEmptyError(show, null)
                 }
             }
 
             override fun showErrorMessage(error: Throwable) {
-
+                viewState.showEmptyProgress(false)
+                viewState.showEmptyError(true, "showErrorMessage")
             }
 
             override fun showEmptyView(show: Boolean) {
@@ -59,17 +82,16 @@ class RoomsListPresenter @Inject constructor(
         }
     )
 
-    private fun getProjectsSingle(page: Int) = Single.fromCallable {interactor.getRooms(page) }
-
     override fun onDestroy() {
+        wampClientStateDisposable?.dispose()
         super.onDestroy()
         paginator.release()
     }
 
-    fun onRoomClicked(id: Long, name : String) = router.startFlow(Screens.RoomFlow(id, name))
+    fun onRoomClicked(id: Int, name: String) = router.startFlow(Screens.RoomFlow(id, name))
 
     fun refreshProjects() = paginator.refresh()
-    fun loadNextProjectsPage() = paginator.loadNewPage()
+    fun loadNextProjectsPage() = {}
 
     fun onBackPressed() = router.exit()
 }

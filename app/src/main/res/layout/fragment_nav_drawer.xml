@@ -17,34 +17,34 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:background="@color/colorPrimary"
-                app:layout_constraintBottom_toBottomOf="@+id/managerKeyTV"
+                app:layout_constraintBottom_toBottomOf="@+id/stateClientTV"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"/>
 
 
         <TextView
-                android:id="@+id/nickTV"
+                android:id="@+id/realmTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
-                android:layout_marginTop="42dp"
+                android:layout_marginTop="52dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:textColor="@color/white"
-                android:textSize="18sp"
+                android:textSize="22sp"
                 app:fontFamily="@font/roboto_medium"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="PyMba86"/>
+                tools:text="judchin"/>
 
         <TextView
-                android:id="@+id/managerKeyTV"
+                android:id="@+id/stateClientTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -59,11 +59,11 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/nickTV"
-                tools:text="bravery"/>
+                app:layout_constraintTop_toBottomOf="@+id/realmTV"
+                tools:text="opened" />
 
         <ImageView
-                android:id="@+id/logoutIV"
+                android:id="@+id/disconnectIV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
@@ -83,7 +83,7 @@
                 app:layout_constraintEnd_toEndOf="parent"/>
 
         <LinearLayout
-                android:id="@+id/accountsContainer"
+                android:id="@+id/sessionsContainer"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -92,7 +92,7 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/view">
 
-            <include layout="@layout/item_add_acount"/>
+            <include layout="@layout/item_add_session"/>
         </LinearLayout>
 
         <LinearLayout
@@ -102,7 +102,7 @@
                 android:orientation="vertical"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/accountsContainer"
+                app:layout_constraintTop_toBottomOf="@+id/sessionsContainer"
                 app:layout_goneMarginTop="8dp">
 
             <TextView

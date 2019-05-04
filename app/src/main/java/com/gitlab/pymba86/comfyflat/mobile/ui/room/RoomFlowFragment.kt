@@ -20,7 +20,7 @@ import javax.inject.Inject
 class RoomFlowFragment : FlowFragment(), MvpView {
 
 
-    private val roomId by argument(ARG_ROOM_ID, 0L)
+    private val roomId by argument(ARG_ROOM_ID, 0)
     private val roomName by argument(ARG_ROOM_NAME, "")
 
     @Inject
@@ -62,10 +62,10 @@ class RoomFlowFragment : FlowFragment(), MvpView {
     companion object {
         private const val ARG_ROOM_ID = "arg_room_id"
         private const val ARG_ROOM_NAME = "arg_room_name"
-        fun create(roomId: Long, roomName: String) =
+        fun create(roomId: Int, roomName: String) =
             RoomFlowFragment().apply {
                 arguments = Bundle().apply {
-                    putLong(ARG_ROOM_ID, roomId)
+                    putInt(ARG_ROOM_ID, roomId)
                     putString(ARG_ROOM_NAME, roomName)
                 }
             }

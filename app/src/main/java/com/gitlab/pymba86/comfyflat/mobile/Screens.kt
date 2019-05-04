@@ -1,17 +1,15 @@
 package com.gitlab.pymba86.comfyflat.mobile
 
-import com.gitlab.pymba86.comfyflat.mobile.entity.Room
 import com.gitlab.pymba86.comfyflat.mobile.ui.about.AboutFragment
-import com.gitlab.pymba86.comfyflat.mobile.ui.auth.AuthFlowFragment
-import com.gitlab.pymba86.comfyflat.mobile.ui.auth.AuthFragment
+import com.gitlab.pymba86.comfyflat.mobile.ui.session.auth.SessionAuthFlowFragment
+import com.gitlab.pymba86.comfyflat.mobile.ui.session.auth.SessionAuthFragment
 import com.gitlab.pymba86.comfyflat.mobile.ui.develop.DevelopFragment
 import com.gitlab.pymba86.comfyflat.mobile.ui.drawer.DrawerFlowFragment
-import com.gitlab.pymba86.comfyflat.mobile.ui.main.MainFlowFragment
 import com.gitlab.pymba86.comfyflat.mobile.ui.room.RoomFlowFragment
 import com.gitlab.pymba86.comfyflat.mobile.ui.room.RoomFragment
 import com.gitlab.pymba86.comfyflat.mobile.ui.rooms.RoomsListFragment
-import com.gitlab.pymba86.comfyflat.mobile.ui.user.UserFlowFragment
-import com.gitlab.pymba86.comfyflat.mobile.ui.user.info.UserInfoFragment
+import com.gitlab.pymba86.comfyflat.mobile.ui.session.info.SessionFlowFragment
+import com.gitlab.pymba86.comfyflat.mobile.ui.session.info.SessionInfoFragment
 import ru.terrakok.cicerone.android.support.SupportAppScreen
 
 object Screens {
@@ -20,22 +18,17 @@ object Screens {
         override fun getFragment() = DrawerFlowFragment()
     }
 
-    object MainFlow : SupportAppScreen() {
-        override fun getFragment() = MainFlowFragment()
+    object AuthFlow : SupportAppScreen() {
+        override fun getFragment() = SessionAuthFlowFragment()
     }
 
-    object AuthFlow : SupportAppScreen() {
-        override fun getFragment() = AuthFlowFragment()
+    object UserFlow : SupportAppScreen() {
+        override fun getFragment() = SessionFlowFragment()
     }
 
     object Auth : SupportAppScreen() {
-        override fun getFragment() = AuthFragment()
-    }
+        override fun getFragment() = SessionAuthFragment()
 
-    data class UserFlow(
-        val userId: Long
-    ) : SupportAppScreen() {
-        override fun getFragment() = UserFlowFragment.create(userId)
     }
 
     object Develop : SupportAppScreen() {
@@ -43,7 +36,7 @@ object Screens {
     }
 
     object UserInfo : SupportAppScreen() {
-        override fun getFragment() = UserInfoFragment()
+        override fun getFragment() = SessionInfoFragment()
     }
 
     object About : SupportAppScreen() {
@@ -59,7 +52,7 @@ object Screens {
     }
 
     data class RoomFlow(
-        val roomId: Long, val roomName: String
+        val roomId: Int, val roomName: String
     ) : SupportAppScreen() {
         override fun getFragment() = RoomFlowFragment.create(roomId, roomName)
     }

@@ -12,11 +12,11 @@
     <string name="auth_error">Unknown error! Try again later</string>
     <string name="custom_auth_menu">Custom server</string>
     <string name="custom_authorization">Сервер</string>
-    <string name="server_path">Url:</string>
+    <string name="url">Url</string>
     <string name="server_path_hint">ws://www.example.com</string>
     <string name="realm_hint">default</string>
-    <string name="realm">Realm:</string>
-    <string name="login">Войти</string>
+    <string name="realm">Realm</string>
+    <string name="connect">Подключиться</string>
     <string name="empty_server_url">Url не задан!</string>
     <string name="empty_realm">Realm не задан!</string>
     <string name="logo_text">comfyflat-mobile</string>
@@ -46,7 +46,7 @@
     <string name="about_item">Помощь</string>
     <string name="exit">Выйти</string>
     <string name="logout_question">Выйти?</string>
-    <string name="add_account">Добавить пользователя</string>
+    <string name="add_session">Добавить сессию</string>
 
     <!--About screen-->
     <string name="about_title">About</string>

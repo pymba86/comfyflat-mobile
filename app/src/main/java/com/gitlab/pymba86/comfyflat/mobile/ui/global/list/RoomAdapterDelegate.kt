@@ -17,12 +17,7 @@ class RoomAdapterDelegate(private val clickListener: (Room) -> Unit) : AdapterDe
         items[position] is Room
 
     override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
-        val root = parent.inflate(R.layout.item_room)
-        with(root) {
-            starsTextView.setStartDrawable(context.getTintDrawable(R.drawable.ic_star_black_24dp, R.color.colorPrimary))
-            forksTextView.setStartDrawable(context.getTintDrawable(R.drawable.ic_fork, R.color.colorPrimary))
-        }
-        return ViewHolder(root)
+        return ViewHolder(parent.inflate(R.layout.item_room))
     }
 
     override fun onBindViewHolder(
@@ -44,9 +39,6 @@ class RoomAdapterDelegate(private val clickListener: (Room) -> Unit) : AdapterDe
             this.room = room
             with(itemView) {
                 titleTextView.text = room.name
-
-                starsTextView.text = room.countDevices.toString()
-                forksTextView.text = room.countTypeDevices.toString()
                 avatarImageView.text = room.name.getOrElse(0){'A'}.toUpperCase().toString()
             }
         }

@@ -16,7 +16,8 @@ android {
         testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
 
         defaultConfig {
-            buildConfigField("String", "ORIGIN_GITLAB_ENDPOINT", "\"https://gitlab.com/\"")
+            buildConfigField("String", "SESSION_URL", "\"ws://127.0.0.1:55555\"")
+            buildConfigField("String", "SESSION_REALM", "\"test\"")
 
 
             javaCompileOptions {
@@ -90,6 +91,7 @@ dependencies {
     implementation("io.reactivex.rxjava2:rxandroid:2.1.0")
     implementation("io.reactivex.rxjava2:rxjava:2.2.3")
     implementation("com.jakewharton.rxrelay2:rxrelay:2.1.0")
+    implementation("com.github.akarnokd:rxjava2-interop:0.12.10")
 
     // WebSocket
     implementation("com.neovisionaries:nv-websocket-client:2.4")

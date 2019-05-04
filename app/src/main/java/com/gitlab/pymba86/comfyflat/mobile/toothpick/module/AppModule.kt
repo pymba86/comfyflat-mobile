@@ -3,10 +3,12 @@ package com.gitlab.pymba86.comfyflat.mobile.toothpick.module
 import android.content.Context
 import android.content.res.AssetManager
 import com.gitlab.pymba86.comfyflat.mobile.BuildConfig
+import com.gitlab.pymba86.comfyflat.mobile.entity.Session
 import com.gitlab.pymba86.comfyflat.mobile.entity.app.develop.AppInfo
 import com.gitlab.pymba86.comfyflat.mobile.model.data.storage.RawAppData
 import com.gitlab.pymba86.comfyflat.mobile.model.interactor.app.AppInfoInteractor
 import com.gitlab.pymba86.comfyflat.mobile.model.repository.app.AppInfoRepository
+import com.gitlab.pymba86.comfyflat.mobile.model.repository.session.SessionRepository
 import com.gitlab.pymba86.comfyflat.mobile.model.system.AppSchedulers
 import com.gitlab.pymba86.comfyflat.mobile.model.system.SchedulersProvider
 import com.gitlab.pymba86.comfyflat.mobile.presentation.AppLauncher
@@ -16,6 +18,7 @@ import ru.terrakok.cicerone.Cicerone
 import ru.terrakok.cicerone.NavigatorHolder
 import ru.terrakok.cicerone.Router
 import toothpick.config.Module
+import ws.wamp.jawampa.WampClient
 
 class AppModule(context: Context) : Module() {
     init {
@@ -30,6 +33,10 @@ class AppModule(context: Context) : Module() {
         val cicerone = Cicerone.create()
         bind(Router::class.java).toInstance(cicerone.router)
         bind(NavigatorHolder::class.java).toInstance(cicerone.navigatorHolder)
+
+
+        // Session
+        bind(SessionRepository::class.java).singletonInScope()
 
         //AppInfo
         bind(AppInfo::class.java).toInstance(

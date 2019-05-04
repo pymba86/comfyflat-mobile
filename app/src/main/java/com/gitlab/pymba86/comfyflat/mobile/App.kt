@@ -27,7 +27,7 @@ class App : Application() {
     }
 
     private fun initAppScope() {
-        Toothpick.openScope(DI.APP_SCOPE)
+        Toothpick.openScopes(DI.APP_SCOPE)
             .installModules(AppModule(this))
     }
 

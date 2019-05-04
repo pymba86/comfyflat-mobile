@@ -10,7 +10,7 @@ import com.hannesdorfmann.adapterdelegates3.ListDelegationAdapter
 
 class RoomsAdapter(
     private val nextPageListener: () -> Unit,
-    private val onClickListener: (id : Long, name : String) -> Unit
+    private val onClickListener: (id : Int, name : String) -> Unit
 )  : ListDelegationAdapter<MutableList<Any>>() {
 
     init {

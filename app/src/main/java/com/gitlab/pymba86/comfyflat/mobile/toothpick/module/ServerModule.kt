@@ -1,19 +1,26 @@
 package com.gitlab.pymba86.comfyflat.mobile.toothpick.module
 
-import com.gitlab.pymba86.comfyflat.mobile.entity.app.session.Session
-import com.gitlab.pymba86.comfyflat.mobile.entity.app.session.UserAccount
-import com.gitlab.pymba86.comfyflat.mobile.toothpick.provider.WampClientProvider
-import toothpick.config.Module
-import ws.wamp.jawampa.WampClient
 
-class ServerModule() : Module() {
+import com.gitlab.pymba86.comfyflat.mobile.BuildConfig
+import com.gitlab.pymba86.comfyflat.mobile.entity.Session
+import com.gitlab.pymba86.comfyflat.mobile.model.interactor.room.RoomInteractor
+import com.gitlab.pymba86.comfyflat.mobile.model.repository.room.RoomRepository
+import com.gitlab.pymba86.comfyflat.mobile.model.repository.session.SessionRepository
+import com.gitlab.pymba86.comfyflat.mobile.toothpick.client.Wamp
+import toothpick.config.Module
+
+class ServerModule(session: Session?) : Module() {
 
     init {
-
-        // Session Data
-        bind(Session::class.java).toInstance(Session("ws://127.0.0.1:55555", "demo"))
+        val newSession = session ?: Session(BuildConfig.SESSION_URL, BuildConfig.SESSION_REALM)
 
         // Session
-       // bind(WampClient::class.java).toProvider(WampClientProvider::class.java).providesSingletonInScope()
+        bind(Session::class.java).toInstance(newSession)
+        bind(Wamp::class.java).singletonInScope()
+        bind(SessionRepository::class.java).singletonInScope()
+
+        // Room
+        bind(RoomRepository::class.java)
+        bind(RoomInteractor::class.java)
     }
 }
