@@ -83,15 +83,15 @@ class RoomsListPresenter @Inject constructor(
     )
 
     override fun onDestroy() {
-        wampClientStateDisposable?.dispose()
         super.onDestroy()
+        wampClientStateDisposable?.dispose()
         paginator.release()
     }
 
     fun onRoomClicked(id: Int, name: String) = router.startFlow(Screens.RoomFlow(id, name))
 
     fun refreshProjects() = paginator.refresh()
-    fun loadNextProjectsPage() = {}
+    fun loadNextProjectsPage() = paginator.loadNewPage()
 
     fun onBackPressed() = router.exit()
 }

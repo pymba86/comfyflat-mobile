@@ -84,8 +84,9 @@ dependencies {
     implementation("com.github.stephanenicolas.toothpick:toothpick-runtime:$toothpickVersion")
     kapt("com.github.stephanenicolas.toothpick:toothpick-compiler:$toothpickVersion")
 
-    // Gson
+    // Json
     implementation("com.google.code.gson:gson:2.8.2")
+    implementation("com.squareup.moshi:moshi:1.8.0")
 
     // RxJava
     implementation("io.reactivex.rxjava2:rxandroid:2.1.0")

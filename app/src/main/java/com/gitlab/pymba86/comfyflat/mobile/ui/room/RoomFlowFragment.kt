@@ -26,7 +26,7 @@ class RoomFlowFragment : FlowFragment(), MvpView {
     @Inject
     lateinit var router: Router
 
-    override val parentScopeName = DI.APP_SCOPE
+    override val parentScopeName = DI.SERVER_SCOPE
 
 
     override val scopeModuleInstaller = { scope: Scope ->

@@ -11,35 +11,38 @@ import com.gitlab.pymba86.comfyflat.mobile.extension.visible
 import com.gitlab.pymba86.comfyflat.mobile.presentation.room.RoomPresenter
 import com.gitlab.pymba86.comfyflat.mobile.presentation.room.RoomView
 import com.gitlab.pymba86.comfyflat.mobile.ui.global.BaseFragment
+import com.gitlab.pymba86.comfyflat.mobile.ui.global.ZeroViewHolder
 import kotlinx.android.synthetic.main.fragment_room.*
 import kotlinx.android.synthetic.main.layout_base_list.*
+import kotlinx.android.synthetic.main.layout_zero.*
+import toothpick.Toothpick
 
 class RoomFragment : BaseFragment(), RoomView {
 
     override val layoutRes: Int = R.layout.fragment_room
 
-    private val adapter by lazy { RoomDeviceAdapter { } }
+    private val adapter by lazy { RoomDeviceAdapter {  presenter.loadNextLabelsPage()} }
 
     @InjectPresenter
     lateinit var presenter: RoomPresenter
+
+    private var zeroViewHolder: ZeroViewHolder? = null
 
     @ProvidePresenter
     fun providePresenter(): RoomPresenter =
         scope.getInstance(RoomPresenter::class.java)
 
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        recyclerView.apply {
-            layoutManager = LinearLayoutManager(context)
-            setHasFixedSize(true)
-            adapter = this@RoomFragment.adapter
-        }
+        recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.setHasFixedSize(true)
+        recyclerView.adapter = adapter
 
 
         toolbar.setNavigationOnClickListener { onBackPressed() }
         swipeToRefresh.setOnRefreshListener { presenter.refreshRoomDevices() }
+        zeroViewHolder = ZeroViewHolder(zeroLayout) { presenter.refreshRoomDevices() }
     }
 
     override fun onBackPressed() {
@@ -53,6 +56,8 @@ class RoomFragment : BaseFragment(), RoomView {
 
 
     override fun showDevices(show: Boolean, devices: List<Device>) {
+        zeroViewHolder?.hide()
+        fullscreenProgressView.visible(!show)
         recyclerView.visible(show)
         postViewAction { adapter.setData(devices) }
     }
@@ -62,8 +67,8 @@ class RoomFragment : BaseFragment(), RoomView {
     }
 
     override fun showEmptyProgress(show: Boolean) {
+        zeroViewHolder?.hide()
         fullscreenProgressView.visible(show)
-
         //trick for disable and hide swipeToRefresh on fullscreen progress
         swipeToRefresh.visible(!show)
         postViewAction { swipeToRefresh.isRefreshing = false }
@@ -74,11 +79,14 @@ class RoomFragment : BaseFragment(), RoomView {
     }
 
     override fun showEmptyView(show: Boolean) {
-
+        if (show) zeroViewHolder?.showEmptyData()
+        else zeroViewHolder?.hide()
     }
 
     override fun showEmptyError(show: Boolean, message: String?) {
-
+        recyclerView.visible(!show)
+        if (show) zeroViewHolder?.showEmptyError(message)
+        else zeroViewHolder?.hide()
     }
 
     override fun showMessage(message: String) {

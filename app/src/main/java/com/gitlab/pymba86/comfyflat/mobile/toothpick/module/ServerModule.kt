@@ -3,7 +3,9 @@ package com.gitlab.pymba86.comfyflat.mobile.toothpick.module
 
 import com.gitlab.pymba86.comfyflat.mobile.BuildConfig
 import com.gitlab.pymba86.comfyflat.mobile.entity.Session
+import com.gitlab.pymba86.comfyflat.mobile.model.interactor.device.DeviceInteractor
 import com.gitlab.pymba86.comfyflat.mobile.model.interactor.room.RoomInteractor
+import com.gitlab.pymba86.comfyflat.mobile.model.repository.device.DeviceRepository
 import com.gitlab.pymba86.comfyflat.mobile.model.repository.room.RoomRepository
 import com.gitlab.pymba86.comfyflat.mobile.model.repository.session.SessionRepository
 import com.gitlab.pymba86.comfyflat.mobile.toothpick.client.Wamp
@@ -22,5 +24,10 @@ class ServerModule(session: Session?) : Module() {
         // Room
         bind(RoomRepository::class.java)
         bind(RoomInteractor::class.java)
+
+        // Device
+        bind(DeviceRepository::class.java)
+        bind(DeviceInteractor::class.java)
+
     }
 }

@@ -74,7 +74,7 @@ class RoomDeviceAdapterDelegate : AdapterDelegate<MutableList<Any>>() {
             init {
                 switch = view.findViewById(R.id.trigger)
                 switch.text = function.name
-                switch.isChecked = function.value != 0
+                switch.isChecked = function.value.equals(0)
                 switch.setOnCheckedChangeListener { _, isChecked ->
                     val value = if (isChecked) 1 else 0
                 }
@@ -112,7 +112,7 @@ class RoomDeviceAdapterDelegate : AdapterDelegate<MutableList<Any>>() {
                 nameTextView.text = "${function.name}, ${function.measure}"
                 seekBar = view.findViewById(R.id.seekBar)
                 seekBar.max = function.maxValue
-                seekBar.progress = function.value
+                seekBar.progress = function.value.toInt()
                 val minTextView: TextView = view.findViewById(R.id.minValueSliderTextView)
                 minTextView.text = function.minValue.toString()
                 val maxTextView: TextView = view.findViewById(R.id.maxValueSliderTextView)

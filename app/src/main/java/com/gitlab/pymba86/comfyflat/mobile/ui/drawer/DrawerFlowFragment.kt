@@ -126,6 +126,11 @@ class DrawerFlowFragment : BaseFragment() {
         super.onPause()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        wampClient.client.close()
+    }
+
     //region nav drawer
     private fun openNavDrawer(open: Boolean) {
         if (open) drawerLayout.openDrawer(GravityCompat.START)

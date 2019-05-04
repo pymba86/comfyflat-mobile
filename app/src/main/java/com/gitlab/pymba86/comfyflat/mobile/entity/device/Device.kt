@@ -1,10 +1,8 @@
 package com.gitlab.pymba86.comfyflat.mobile.entity.device
 
-import com.google.gson.annotations.SerializedName
-
 data class Device(
-    @SerializedName("id") val id: Int,
-    @SerializedName("name") val name: String,
-    @SerializedName("category") val category: DeviceCategory,
-    @SerializedName("functions") val functions: List<DeviceFunction>
+    val id: Int,
+    val name: String,
+    val category: DeviceCategory,
+    val functions: List<DeviceFunction>
 )
