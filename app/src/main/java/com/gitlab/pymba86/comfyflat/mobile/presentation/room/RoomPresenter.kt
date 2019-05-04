@@ -2,8 +2,10 @@ package com.gitlab.pymba86.comfyflat.mobile.presentation.room
 
 import com.arellomobile.mvp.InjectViewState
 import com.gitlab.pymba86.comfyflat.mobile.entity.device.Device
+import com.gitlab.pymba86.comfyflat.mobile.entity.device.DeviceCallFunction
 import com.gitlab.pymba86.comfyflat.mobile.model.interactor.device.DeviceInteractor
 import com.gitlab.pymba86.comfyflat.mobile.model.system.flow.FlowRouter
+import com.gitlab.pymba86.comfyflat.mobile.presentation.device.DeviceView
 import com.gitlab.pymba86.comfyflat.mobile.presentation.global.BasePresenter
 import com.gitlab.pymba86.comfyflat.mobile.presentation.global.Paginator
 import com.gitlab.pymba86.comfyflat.mobile.toothpick.PrimitiveWrapper
@@ -20,12 +22,16 @@ class RoomPresenter @Inject constructor(
     @RoomName private val roomNameWrapper: PrimitiveWrapper<String>,
     private val deviceInteractor: DeviceInteractor,
     private val flowRouter: FlowRouter
-    ) : BasePresenter<RoomView>(){
+) : BasePresenter<RoomView>() {
 
     private val roomId = roomIdWrapper.value
     private val roomName = roomNameWrapper.value
 
     private var wampClientStateDisposable: Disposable? = null
+    private var deviceDataWampClientDisposable: Disposable? = null
+
+    // Список подписанных устройств
+    private var subscriptionViewDevices: HashMap<Int, DeviceView> = HashMap()
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
@@ -39,16 +45,39 @@ class RoomPresenter @Inject constructor(
                         viewState.showEmptyProgress(true)
                     }
                     WampState.CLOSED -> {
-                    }
-                    WampState.CLOSING -> {
-                        //   viewState.showEmptyProgress(false)
-                        //    viewState.showEmptyError(true, "Connection closing")
+                        deviceDataWampClientDisposable?.dispose()
                     }
                     WampState.OPEN -> {
+
+                        // Подписываемся на получение новых данных
+                        deviceDataWampClientDisposable = deviceInteractor.stateFunctionChange()
+                            .subscribe (
+                                { updateDataDeviceView(it) },
+                                {  viewState.showEmptyError(true, "Failed update param") })
+
+                        // Загружаем список устройств
                         refreshRoomDevices()
                     }
                 }
             }
+    }
+
+
+    fun publishDataDevice(data: DeviceCallFunction) {
+
+        deviceInteractor.callFunctionDevice(data)
+            .subscribe(
+                {  },
+                { viewState.showEmptyError(true, "Failed set param") }
+            ).connect()
+    }
+
+    fun subscribeDeviceView(deviceId: Int, deviceView: DeviceView) {
+        subscriptionViewDevices[deviceId] = deviceView
+    }
+
+    private fun updateDataDeviceView(data: DeviceCallFunction) {
+        subscriptionViewDevices[data.idDevice]?.setData(data)
     }
 
     private val paginator = Paginator(
@@ -98,6 +127,7 @@ class RoomPresenter @Inject constructor(
     override fun onDestroy() {
         super.onDestroy()
         wampClientStateDisposable?.dispose()
+        deviceDataWampClientDisposable?.dispose()
         paginator.release()
     }
 

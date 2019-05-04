@@ -3,17 +3,19 @@ package com.gitlab.pymba86.comfyflat.mobile.ui.room
 import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
 import com.gitlab.pymba86.comfyflat.mobile.entity.device.Device
+import com.gitlab.pymba86.comfyflat.mobile.presentation.room.RoomPresenter
 import com.gitlab.pymba86.comfyflat.mobile.ui.global.list.ProgressAdapterDelegate
 import com.gitlab.pymba86.comfyflat.mobile.ui.global.list.ProgressItem
 import com.hannesdorfmann.adapterdelegates3.ListDelegationAdapter
 
 class RoomDeviceAdapter(
+    private val presenter: RoomPresenter,
     private val nextPageListener: () -> Unit
 ) : ListDelegationAdapter<MutableList<Any>>() {
 
     init {
         items = mutableListOf()
-        delegatesManager.addDelegate(RoomDeviceAdapterDelegate())
+        delegatesManager.addDelegate(RoomDeviceAdapterDelegate(presenter))
             .addDelegate(ProgressAdapterDelegate())
     }
 

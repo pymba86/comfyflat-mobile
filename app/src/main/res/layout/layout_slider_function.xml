@@ -20,12 +20,16 @@
             android:text="терморегулятор_уставка" />
     </RelativeLayout>
 
-    <SeekBar
+    <com.xw.repo.BubbleSeekBar
         android:id="@+id/seekBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"/>
+        android:layout_marginRight="8dp"
+        app:bsb_auto_adjust_section_mark="true"
+        app:bsb_track_color="@color/colorPrimaryLight"
+        app:bsb_second_track_color="@color/colorPrimary"
+        app:bsb_touch_to_seek="true"/>
 
     <RelativeLayout
         android:layout_width="match_parent"

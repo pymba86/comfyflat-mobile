@@ -21,7 +21,7 @@ class RoomFragment : BaseFragment(), RoomView {
 
     override val layoutRes: Int = R.layout.fragment_room
 
-    private val adapter by lazy { RoomDeviceAdapter {  presenter.loadNextLabelsPage()} }
+    private val adapter by lazy { RoomDeviceAdapter( presenter) {  presenter.loadNextLabelsPage()} }
 
     @InjectPresenter
     lateinit var presenter: RoomPresenter

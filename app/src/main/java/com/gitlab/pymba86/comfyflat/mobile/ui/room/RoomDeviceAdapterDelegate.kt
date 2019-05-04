@@ -11,14 +11,19 @@ import com.gitlab.pymba86.comfyflat.mobile.entity.device.Device
 import com.gitlab.pymba86.comfyflat.mobile.entity.device.DeviceCallFunction
 import com.gitlab.pymba86.comfyflat.mobile.entity.device.DeviceFunction
 import com.gitlab.pymba86.comfyflat.mobile.extension.inflate
+import com.gitlab.pymba86.comfyflat.mobile.presentation.device.DeviceView
+import com.gitlab.pymba86.comfyflat.mobile.presentation.room.RoomPresenter
 import com.hannesdorfmann.adapterdelegates3.AdapterDelegate
+import com.xw.repo.BubbleSeekBar
 import kotlinx.android.synthetic.main.item_device.view.*
 
-class RoomDeviceAdapterDelegate : AdapterDelegate<MutableList<Any>>() {
+class RoomDeviceAdapterDelegate constructor(
+    private val presenter: RoomPresenter
+) : AdapterDelegate<MutableList<Any>>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
-        return DeviceViewHolder(parent.inflate(R.layout.item_device))
+        return DeviceViewHolder(parent.inflate(R.layout.item_device), presenter)
     }
 
     override fun isForViewType(items: MutableList<Any>, position: Int): Boolean {
@@ -34,7 +39,8 @@ class RoomDeviceAdapterDelegate : AdapterDelegate<MutableList<Any>>() {
         (holder as DeviceViewHolder).bind(items[position] as Device)
     }
 
-    private class DeviceViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    class DeviceViewHolder(view: View, private val presenter: RoomPresenter) : RecyclerView.ViewHolder(view),
+        DeviceView {
 
         private interface ParamHolder {
             fun setValue(value: Any)
@@ -43,24 +49,29 @@ class RoomDeviceAdapterDelegate : AdapterDelegate<MutableList<Any>>() {
         private var currentDevice: Device? = null
         private val currentParams = mutableMapOf<Int, ParamHolder>()
 
-        fun bind(device: Device) = with(itemView) {
-            currentDevice = device
-            functionContainerViewGroup.removeAllViews()
-            nameTextView.text = device.name
-            categoryTextView.text = device.category.name
 
-            if (device.functions.isEmpty()) itemView.alpha = 0.3f
+        fun bind(device: Device) {
 
-            device.functions.forEach {
-                currentParams[it.id] = when {
-                    !it.isWriteAccess -> InfoHolder(functionContainerViewGroup, it)
-                    (it.minValue == 0 && it.maxValue == 1) -> SwitchHolder(functionContainerViewGroup, it)
-                    else -> SliderHolder(functionContainerViewGroup, it)
+            with(itemView) {
+                currentDevice = device
+                functionContainerViewGroup.removeAllViews()
+                nameTextView.text = device.name
+                categoryTextView.text = device.category.name
+
+                if (device.functions.isEmpty()) itemView.alpha = 0.3f
+
+                device.functions.forEach {
+                    currentParams[it.id] = when {
+                        !it.isWriteAccess -> InfoHolder(functionContainerViewGroup, it)
+                        (it.minValue == 0 && it.maxValue == 1) -> SwitchHolder(functionContainerViewGroup, it)
+                        else -> SliderHolder(functionContainerViewGroup, it)
+                    }
                 }
             }
+            presenter.subscribeDeviceView(device.id, this)
         }
 
-        private fun setData(funcLite: DeviceCallFunction) {
+        override fun setData(funcLite: DeviceCallFunction) {
             currentDevice?.functions?.find { it.id == funcLite.idFunction }?.apply {
                 currentParams[id]?.setValue(funcLite.value)
             }
@@ -69,6 +80,7 @@ class RoomDeviceAdapterDelegate : AdapterDelegate<MutableList<Any>>() {
         private inner class SwitchHolder(parent: ViewGroup, function: DeviceFunction) : ParamHolder {
 
             private val view = parent.inflate(R.layout.layout_switch_function, true)
+            private var ignoreCheckedChange = false
             private var switch: Switch
 
             init {
@@ -76,12 +88,18 @@ class RoomDeviceAdapterDelegate : AdapterDelegate<MutableList<Any>>() {
                 switch.text = function.name
                 switch.isChecked = function.value.equals(0)
                 switch.setOnCheckedChangeListener { _, isChecked ->
-                    val value = if (isChecked) 1 else 0
+
+                    if (!ignoreCheckedChange) {
+                        val value = if (isChecked) 1 else 0
+                        presenter.publishDataDevice(DeviceCallFunction(currentDevice?.id!!, function.id, value))
+                    }
                 }
             }
 
             override fun setValue(value: Any) {
+                ignoreCheckedChange = true
                 switch.isChecked = value as Int == 1
+                ignoreCheckedChange = false
             }
         }
 
@@ -104,26 +122,73 @@ class RoomDeviceAdapterDelegate : AdapterDelegate<MutableList<Any>>() {
         private inner class SliderHolder(parent: ViewGroup, function: DeviceFunction) : ParamHolder {
 
             private val view = parent.inflate(R.layout.layout_slider_function, true)
-            private var seekBar: SeekBar
+            private var ignoreCheckedChange = false
+            private var seekBar: BubbleSeekBar
             private var valueTextView: TextView
 
             init {
                 val nameTextView: TextView = view.findViewById(R.id.nameSliderTextView)
                 nameTextView.text = "${function.name}, ${function.measure}"
                 seekBar = view.findViewById(R.id.seekBar)
-                seekBar.max = function.maxValue
-                seekBar.progress = function.value.toInt()
+
+                seekBar.configBuilder
+                    .min(function.minValue.toFloat())
+                    .max(function.maxValue.toFloat())
+                    .progress(function.value.toInt().toFloat())
+                    .build()
+
+
                 val minTextView: TextView = view.findViewById(R.id.minValueSliderTextView)
                 minTextView.text = function.minValue.toString()
                 val maxTextView: TextView = view.findViewById(R.id.maxValueSliderTextView)
                 maxTextView.text = function.maxValue.toString()
                 valueTextView = view.findViewById(R.id.valueSliderTextView)
                 valueTextView.text = function.value.toString()
+
+                seekBar.onProgressChangedListener = object : BubbleSeekBar.OnProgressChangedListener {
+
+                    var startValue = 0
+
+                    override fun onProgressChanged(
+                        bubbleSeekBar: BubbleSeekBar?,
+                        progress: Int,
+                        progressFloat: Float,
+                        fromUser: Boolean
+                    ) {
+
+                        if (!ignoreCheckedChange) {
+                            valueTextView.text = seekBar.progress.toString()
+                            presenter.publishDataDevice(DeviceCallFunction(currentDevice?.id!!, function.id, progress))
+                        }
+
+                    }
+
+                    override fun getProgressOnActionUp(
+                        bubbleSeekBar: BubbleSeekBar?,
+                        progress: Int,
+                        progressFloat: Float
+                    ) {
+                        startValue = seekBar.progress
+                    }
+
+                    override fun getProgressOnFinally(
+                        bubbleSeekBar: BubbleSeekBar?,
+                        progress: Int,
+                        progressFloat: Float,
+                        fromUser: Boolean
+                    ) {
+
+                        startValue = seekBar.progress
+                    }
+                }
             }
 
             override fun setValue(value: Any) {
-                seekBar.progress = value as Int
+                ignoreCheckedChange = true
+                val newValue: Int = value as Int
+                seekBar.setProgress(newValue.toFloat())
                 valueTextView.text = value.toString()
+                ignoreCheckedChange = false
             }
         }
 

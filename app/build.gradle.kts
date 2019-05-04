@@ -106,6 +106,8 @@ dependencies {
     // Jawampa
     implementation("ws.wamp.jawampa:jawampa-netty:0.5.0")
 
+    // Bubble Seekbar
+    implementation("com.xw.repo:bubbleseekbar:3.20")
 }
 
 gradle.buildFinished {

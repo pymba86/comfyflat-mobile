@@ -1,6 +1,7 @@
 package com.gitlab.pymba86.comfyflat.mobile.model.repository.device
 
 import com.gitlab.pymba86.comfyflat.mobile.entity.device.Device
+import com.gitlab.pymba86.comfyflat.mobile.entity.device.DeviceCallFunction
 import com.gitlab.pymba86.comfyflat.mobile.model.system.SchedulersProvider
 import com.gitlab.pymba86.comfyflat.mobile.toothpick.client.Wamp
 import com.squareup.moshi.JsonAdapter
@@ -17,6 +18,27 @@ class DeviceRepository @Inject constructor(
 ) {
 
     fun stateWampClient() = wampClient.state
+
+    fun stateFunctionChange() = RxJavaInterop
+        .toV2Observable(wampClient.client.makeSubscription("sub_devices_function", String::class.java))
+        .subscribeOn(schedulers.io())
+        .observeOn(schedulers.ui())
+        .map {
+            val adapter: JsonAdapter<DeviceCallFunction> = moshi.adapter(DeviceCallFunction::class.java)
+            adapter.failOnUnknown().serializeNulls().nonNull().fromJson(it)!!
+        }
+
+    fun setParamDevice(idDevice: Int, idFunction: Int, value: Int) = RxJavaInterop
+        .toV2Observable(wampClient.client.call(
+            "set_param_device", String::class.java,
+            idDevice, idFunction, value))
+        .subscribeOn(schedulers.io())
+        .observeOn(schedulers.ui())
+        .map {
+            val adapter: JsonAdapter<Boolean> = moshi.adapter(Boolean::class.java)
+            adapter.failOnUnknown().serializeNulls().nonNull().fromJson(it)!!
+        }
+        .singleOrError()
 
     fun getRoomDevices(roomId: Int) = RxJavaInterop
         .toV2Observable(wampClient.client.call("get_devices_room", String, roomId))
