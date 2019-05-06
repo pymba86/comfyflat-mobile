@@ -20,6 +20,12 @@
 
         <item name="colorButtonNormal">@color/colorPrimary</item>
         <item name="colorControlHighlight">@color/colorAccent</item>
+
+        <item name="snackbarStyle">@style/SnackBarStyle</item>
+    </style>
+
+    <style name="SnackBarStyle" parent="Widget.MaterialComponents.Snackbar.FullWidth">
+        <item name="android:background">@color/colorPrimary</item>
     </style>
 
     <style name="AppTheme.Splash">
@@ -68,6 +74,10 @@
 
     <style name="ProgressDialogTheme" parent="ThemeOverlay.AppCompat.Dialog">
         <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+    <style name="ToggleSwitchTheme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="colorAccent">@color/colorPrimary</item>
     </style>
 
 </resources>

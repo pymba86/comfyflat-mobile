@@ -17,7 +17,7 @@
 
     <include
         android:id="@+id/fullscreenProgressView"
-        layout="@layout/layout_gitlab_progress"
+        layout="@layout/layout_progress"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_gravity="center"

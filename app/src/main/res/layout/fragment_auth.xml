@@ -48,6 +48,8 @@
                 <EditText android:id="@+id/urlValue"
                           android:layout_width="match_parent"
                           android:layout_height="wrap_content"
+                          android:inputType="text"
+                          android:maxLines="1"
                           android:hint="@string/url"/>
             </android.support.design.widget.TextInputLayout>
 
@@ -61,6 +63,8 @@
                 <EditText android:id="@+id/realmValue"
                           android:layout_width="match_parent"
                           android:layout_height="wrap_content"
+                          android:inputType="text"
+                          android:maxLines="1"
                           android:hint="@string/realm"/>
             </android.support.design.widget.TextInputLayout>
 

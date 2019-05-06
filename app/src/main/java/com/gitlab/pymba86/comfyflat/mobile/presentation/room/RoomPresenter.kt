@@ -53,7 +53,7 @@ class RoomPresenter @Inject constructor(
                         deviceDataWampClientDisposable = deviceInteractor.stateFunctionChange()
                             .subscribe (
                                 { updateDataDeviceView(it) },
-                                {  viewState.showEmptyError(true, "Failed update param") })
+                                {  viewState.showEmptyError(true, "Не удалось обновить значение") })
 
                         // Загружаем список устройств
                         refreshRoomDevices()
@@ -68,7 +68,7 @@ class RoomPresenter @Inject constructor(
         deviceInteractor.callFunctionDevice(data)
             .subscribe(
                 {  },
-                { viewState.showEmptyError(true, "Failed set param") }
+                { viewState.showEmptyError(true, "Не удалось установить значение") }
             ).connect()
     }
 
@@ -90,8 +90,7 @@ class RoomPresenter @Inject constructor(
             override fun showEmptyError(show: Boolean, error: Throwable?) {
                 viewState.showEmptyProgress(!show)
                 if (error != null) {
-                    // errorHandler.proceed(error, { viewState.showEmptyError(show, it) })
-                    viewState.showEmptyError(show, "showEmptyError")
+                    viewState.showEmptyError(show, "Не удалось подключиться")
                 } else {
                     viewState.showEmptyError(show, null)
                 }
@@ -99,7 +98,7 @@ class RoomPresenter @Inject constructor(
 
             override fun showErrorMessage(error: Throwable) {
                 viewState.showEmptyProgress(false)
-                viewState.showEmptyError(true, "showErrorMessage")
+                viewState.showEmptyError(true, "Не удалось получить данные")
             }
 
             override fun showEmptyView(show: Boolean) {

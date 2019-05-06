@@ -1,5 +1,6 @@
 package com.gitlab.pymba86.comfyflat.mobile.ui.room
 
+import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import com.arellomobile.mvp.presenter.InjectPresenter
@@ -41,6 +42,7 @@ class RoomFragment : BaseFragment(), RoomView {
 
 
         toolbar.setNavigationOnClickListener { onBackPressed() }
+        swipeToRefresh.setColorSchemeResources(R.color.colorPrimary)
         swipeToRefresh.setOnRefreshListener { presenter.refreshRoomDevices() }
         zeroViewHolder = ZeroViewHolder(zeroLayout) { presenter.refreshRoomDevices() }
     }
@@ -57,7 +59,6 @@ class RoomFragment : BaseFragment(), RoomView {
 
     override fun showDevices(show: Boolean, devices: List<Device>) {
         zeroViewHolder?.hide()
-        fullscreenProgressView.visible(!show)
         recyclerView.visible(show)
         postViewAction { adapter.setData(devices) }
     }

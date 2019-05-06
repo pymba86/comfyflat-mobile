@@ -45,16 +45,16 @@ class AuthPresenter @Inject constructor(
                             is WampClient.ConnectedState ->  {
                                 client.close().toBlocking().last()
                                 val session = Session(url, realm)
-                                viewState.showMessage("ConnectedState")
+                                viewState.showMessage("Успешно!")
                                 sessionInteractor.saveNewSession(session)
                                 sessionInteractor.switchSession(session)
                                 router.newRootFlow(Screens.DrawerFlow)
                             }
                             is WampClient.ConnectingState -> {
-                                viewState.showMessage("ConnectingState")
+                                viewState.showMessage("Идет подключение...")
                             }
                             is WampClient.DisconnectedState -> {
-                               // viewState.showMessage("DisconnectedState")
+                               // viewState.showMessage("Подключение разорвано!")
                             }
                         }
                     },
@@ -63,7 +63,7 @@ class AuthPresenter @Inject constructor(
             client.open()
 
         } catch (e: Exception) {
-            viewState.showMessage("Configuration error")
+            viewState.showMessage("Поля заполнены неверно!")
         }
     }
 }

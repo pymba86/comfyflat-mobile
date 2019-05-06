@@ -2,9 +2,9 @@
     <!-- common -->
     <string name="app_name">comfyflat-mobile</string>
     <string name="cancel">Отмена</string>
-    <string name="refresh">Refresh</string>
+    <string name="refresh">Обновить</string>
     <string name="ok">OK</string>
-    <string name="loading">loading…</string>
+    <string name="loading">Загрузка…</string>
 
     <!--Auth screen-->
     <string name="auth_title">Авторизация</string>
@@ -26,10 +26,10 @@
     <string name="rooms_title">Комнаты</string>
 
     <!--Zero screen-->
-    <string name="empty_error">Oops!</string>
-    <string name="empty_error_description">Something went wrong.\nPlease try again later.</string>
-    <string name="empty_data">Empty data</string>
-    <string name="empty_data_description">You have not data yet.\nPlease try again later.</string>
+    <string name="empty_error">Упс!</string>
+    <string name="empty_error_description">Что-то пошло не так.\n Пожалуйста, повторите попытку позже.</string>
+    <string name="empty_data">Нет данных</string>
+    <string name="empty_data_description">У вас еще нет данных.\n Пожалуйста, попробуйте позже.</string>
 
     <!--Projects screen-->
     <string name="projects_title">Комнаты</string>

@@ -27,13 +27,6 @@ class RoomsListPresenter @Inject constructor(
                 when (state) {
                     WampState.CONNECTING -> {
                         viewState.showEmptyProgress(true)
-                      //  viewState.showEmptyProgress(true)
-                    }
-                    WampState.CLOSED -> {
-                    }
-                    WampState.CLOSING -> {
-                     //   viewState.showEmptyProgress(false)
-                    //    viewState.showEmptyError(true, "Connection closing")
                     }
                     WampState.OPEN -> {
                         refreshProjects()
@@ -52,8 +45,7 @@ class RoomsListPresenter @Inject constructor(
             override fun showEmptyError(show: Boolean, error: Throwable?) {
                 viewState.showEmptyProgress(!show)
                 if (error != null) {
-                    // errorHandler.proceed(error, { viewState.showEmptyError(show, it) })
-                    viewState.showEmptyError(show, "showEmptyError")
+                    viewState.showEmptyError(show, "Не удалось подключиться")
                 } else {
                     viewState.showEmptyError(show, null)
                 }
@@ -61,7 +53,7 @@ class RoomsListPresenter @Inject constructor(
 
             override fun showErrorMessage(error: Throwable) {
                 viewState.showEmptyProgress(false)
-                viewState.showEmptyError(true, "showErrorMessage")
+                viewState.showEmptyError(true, "Не удалось получить данные")
             }
 
             override fun showEmptyView(show: Boolean) {

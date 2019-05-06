@@ -148,6 +148,8 @@ class RoomDeviceAdapterDelegate constructor(
                 seekBar.onProgressChangedListener = object : BubbleSeekBar.OnProgressChangedListener {
 
                     var startValue = 0
+                    var oldProgress = 0
+                    var isOn = true
 
                     override fun onProgressChanged(
                         bubbleSeekBar: BubbleSeekBar?,
@@ -168,7 +170,7 @@ class RoomDeviceAdapterDelegate constructor(
                         progress: Int,
                         progressFloat: Float
                     ) {
-                        startValue = seekBar.progress
+                        oldProgress = seekBar.progress
                     }
 
                     override fun getProgressOnFinally(

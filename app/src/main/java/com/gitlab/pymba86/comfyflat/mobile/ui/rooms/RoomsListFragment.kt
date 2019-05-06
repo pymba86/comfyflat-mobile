@@ -56,6 +56,7 @@ class RoomsListFragment : BaseFragment(), RoomsListView {
         recyclerView.adapter = adapter
 
         swipeToRefresh.setOnRefreshListener { presenter.refreshProjects() }
+        swipeToRefresh.setColorSchemeResources(R.color.colorPrimary)
         zeroViewHolder = ZeroViewHolder(zeroLayout) { presenter.refreshProjects() }
     }
 
@@ -84,7 +85,6 @@ class RoomsListFragment : BaseFragment(), RoomsListView {
 
     override fun showRooms(show: Boolean, projects: List<Room>) {
         zeroViewHolder?.hide()
-        fullscreenProgressView.visible(!show)
         recyclerView.visible(show)
         postViewAction { adapter.setData(projects) }
     }
